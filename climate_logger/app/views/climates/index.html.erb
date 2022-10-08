@@ -1,71 +1,95 @@
-<p id="notice"><%= notice %></p>
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1>Room Temperature Controller</h1>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <p id="notice"><%= notice %></p>
 
-<div id='controller'>
-  <h3>Controller</h3>
-  <%= link_to 'Turn Fan Up', fan_up_path  %>
-  <br>
-  <%= link_to 'Turn Fan Down', fan_down_path %>
-  <br>
-  <%= link_to 'New Climate', new_climate_path %>
-  <br><br>
-
-   <div id='value'>
-    <h3>Temperature:</h3>
-    <h3>Fan Speed: </h3>
-  </div>
-
-</div>
-<div id=controller>
-  <h3>Controller</h3>
-  <%= link_to 'Turn LED On', led_on_path  %>
-  <br>
-  <%= link_to 'Turn LED Off', led_off_path %>
-  <br>
-  <br><br>
-
-  <h3>Flash Message</h3>
-
-  <% flash.each do |type, msg| %>
-    <div>
-      <%= msg %>
+  <h1>Room Temperature Controller</h1>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-md-12'>
+        <div id='value'>
+          <h3>Temperature:</h3>
+        </div>
+      </div>
     </div>
-  <% end %>
+  </div>
+  </div>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-md-12'>
+        <div id=controller>
 
-</div>
+          <h3>Controller</h3>
+          <% flash.each do |type, msg| %>
+            <div>
+              <%= msg %>
+            </div>
+          <% end %>
 
-
-<div id = 'database'>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Log message</th>
-        <th>Temperature</th>
-        <th>Fan position</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @climates.each do |climate| %>
-        <tr>
-          <td><%= climate.created_at %></td>
-          <td><%= climate.temperature %></td>
-          <td><%= climate.fan_position %></td>
-          <td><%= link_to 'Show', climate %></td>
-          <td><%= link_to 'Edit', edit_climate_path(climate) %></td>
-          <td><%= link_to 'Destroy', climate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <br>
-
-
-</div>
+            <%= link_to "Turn LED On", "/led/on", class: 'btn btn-primary'  %>
+          <br>
+          <br>
+            <%= link_to 'Turn LED Off', "/led/off", class: 'btn btn-primary' %>
+          <br>
+          <br>
+            <%= link_to 'Turn LED2 On',  "/led2/on", class: 'btn btn-primary' %>
+          <br>
+          <br>
+            <%= link_to 'Turn LED2 Off', "/led2/off", class: 'btn btn-primary' %>
+          <br>
+          <br>
+            <%= link_to 'Turn LED3 On', "/led3/on", class: 'btn btn-primary' %>
+          <br>
+          <br>
+            <%= link_to 'Turn LED3 Off', "/led3/off", class: 'btn btn-primary' %>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-md-12'>
+        <div id='controller'>
+          <h3>CRUD</h3>
+          <br>
+          <%= link_to 'New Climate', new_climate_path %>
+          <br>
+          <div id = 'database'>
+            <table>
+              <thead>
+                <tr>
+                  <th>Log message</th>
+                  <th>Temperature</th>
+                  <th>Fan position</th>
+                  <th colspan="3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @climates.each do |climate| %>
+                  <tr>
+                    <td><%= climate.created_at %></td>
+                    <td><%= climate.temperature %></td>
+                    <td><%= climate.fan_position %></td>
+                    <td><%= link_to 'Show', climate %></td>
+                    <td><%= link_to 'Edit', edit_climate_path(climate) %></td>
+                    <td><%= link_to 'Destroy', climate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>
 
 <script>
 window.setInterval(reload, 60);
@@ -83,19 +107,7 @@ function reload() {
         success: function(data) {
           console.log(data);
 
-          var fanSpeed = 'UNSET';
-          if (data.fanPosition == 0) {
-            fanSpeed = 'Off';
-          } else if (data.fanPosition == 1) {
-            fanSpeed = 'Low';
-          } else if (data.fanPosition == 2) {
-            fanSpeed = 'Medium';
-          } else if (data.fanPosition == 3) {
-            fanSpeed = 'High';
-          }
-
-
-          $('#value').replaceWith("<div id='value'><h3>Temperature:</h3><p>" + data.lastMeasuredTemperature + "</p><h3>Fan Speed: </h3> <p> "+ fanSpeed + "</div>")
+          $('#value').replaceWith("<div id='value'><h3>Temperature:</h3><p>" + data.lastMeasuredTemperature + "</p><h3> </h3> <p> "+ "</div>")
           ready = true;
         },
         error: function(data) {
