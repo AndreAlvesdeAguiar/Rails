@@ -1,0 +1,32 @@
+<%= form_with(model: climate, local: true) do |form| %>
+  <% if climate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(climate.errors.count, "error") %> prohibited this climate from being saved:</h2>
+
+      <ul>
+        <% climate.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :log_message %>
+    <%= form.text_field :log_message %>
+  </div>
+
+  <div class="field">
+    <%= form.label :temperature %>
+    <%= form.number_field :temperature %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fan_position %>
+    <%= form.number_field :fan_position %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

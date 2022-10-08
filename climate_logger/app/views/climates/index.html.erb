@@ -1,0 +1,111 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Room Temperature Controller</h1>
+
+<div id='controller'>
+  <h3>Controller</h3>
+  <%= link_to 'Turn Fan Up', fan_up_path  %>
+  <br>
+  <%= link_to 'Turn Fan Down', fan_down_path %>
+  <br>
+  <%= link_to 'New Climate', new_climate_path %>
+  <br><br>
+
+   <div id='value'>
+    <h3>Temperature:</h3>
+    <h3>Fan Speed: </h3>
+  </div>
+
+</div>
+<div id=controller>
+  <h3>Controller</h3>
+  <%= link_to 'Turn LED On', led_on_path  %>
+  <br>
+  <%= link_to 'Turn LED Off', led_off_path %>
+  <br>
+  <br><br>
+
+  <h3>Flash Message</h3>
+
+  <% flash.each do |type, msg| %>
+    <div>
+      <%= msg %>
+    </div>
+  <% end %>
+
+</div>
+
+
+<div id = 'database'>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Log message</th>
+        <th>Temperature</th>
+        <th>Fan position</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @climates.each do |climate| %>
+        <tr>
+          <td><%= climate.created_at %></td>
+          <td><%= climate.temperature %></td>
+          <td><%= climate.fan_position %></td>
+          <td><%= link_to 'Show', climate %></td>
+          <td><%= link_to 'Edit', edit_climate_path(climate) %></td>
+          <td><%= link_to 'Destroy', climate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+
+</div>
+
+<script>
+window.setInterval(reload, 60);
+var ready = true;
+
+function reload() {
+
+  $( document ).ready(function() {
+    if(ready == true) {
+      ready = false;
+
+      $.ajax({
+        url: "/get_data",
+        type: "get",
+        success: function(data) {
+          console.log(data);
+
+          var fanSpeed = 'UNSET';
+          if (data.fanPosition == 0) {
+            fanSpeed = 'Off';
+          } else if (data.fanPosition == 1) {
+            fanSpeed = 'Low';
+          } else if (data.fanPosition == 2) {
+            fanSpeed = 'Medium';
+          } else if (data.fanPosition == 3) {
+            fanSpeed = 'High';
+          }
+
+
+          $('#value').replaceWith("<div id='value'><h3>Temperature:</h3><p>" + data.lastMeasuredTemperature + "</p><h3>Fan Speed: </h3> <p> "+ fanSpeed + "</div>")
+          ready = true;
+        },
+        error: function(data) {
+          alert("FAILED");
+          ready = true;
+        }
+      })
+
+    }
+  });
+}
+
+</script>

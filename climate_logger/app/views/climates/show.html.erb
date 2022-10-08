@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Log message:</strong>
+  <%= @climate.log_message %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @climate.temperature %>
+</p>
+
+<p>
+  <strong>Fan position:</strong>
+  <%= @climate.fan_position %>
+</p>
+
+<%= link_to 'Edit', edit_climate_path(@climate) %> |
+<%= link_to 'Back', climates_path %>
