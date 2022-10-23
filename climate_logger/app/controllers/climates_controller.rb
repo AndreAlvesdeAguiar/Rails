@@ -90,6 +90,62 @@ def ledOff
     redirect_to climates_path
 end
 
+def led2On
+  #sends a GET request to the ESP8266 route dedicated to turning on the LED
+  @response = HTTParty.get("http://192.168.15.21/LED2/on/")
+  puts @response
+
+  #updates the flash alert if the JSON received says the LED is on
+  if @response["Rec"] == "LED2on"
+      flash.alert = "LED2 is turned on"
+  end
+
+  redirect_to climates_path
+
+end
+
+#send GET request to ESP8266 and updates flash alert
+def led2Off
+  #sends a GET request to the ESP8266 route dedicated to turning off the LED
+  @response = HTTParty.get("http://192.168.15.21/LED2/off/")
+  puts @response
+
+  #updates the flash alert if the JSON received says the LED is off
+  if @response["Rec"] == "LED2off"
+      flash.alert = "LED2 is turned off"
+  end
+
+  redirect_to climates_path
+end
+
+def led3On
+  #sends a GET request to the ESP8266 route dedicated to turning on the LED
+  @response = HTTParty.get("http://192.168.15.21/LED3/on/")
+  puts @response
+
+  #updates the flash alert if the JSON received says the LED is on
+  if @response["Rec"] == "LED3on"
+      flash.alert = "LED3 is turned on"
+  end
+
+  redirect_to climates_path
+
+end
+
+#send GET request to ESP8266 and updates flash alert
+def led3Off
+  #sends a GET request to the ESP8266 route dedicated to turning off the LED
+  @response = HTTParty.get("http://192.168.15.21/LED3/off/")
+  puts @response
+
+  #updates the flash alert if the JSON received says the LED is off
+  if @response["Rec"] == "LED3off"
+      flash.alert = "LED3 is turned off"
+  end
+
+  redirect_to climates_path
+end
+
 #send GET request to ESP8266 to poll for new temperature data and adjust fan accordingly
 def getData
   #sends a GET request to the ESP8266 route dedicated to turning off the LED
